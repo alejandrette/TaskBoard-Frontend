@@ -5,7 +5,9 @@ export default function AppLayout() {
   return (
     <>
       <Header />
-      <Outlet/>
+      <div className="max-w-screen-2xl mx-auto my-10 space-y-4">
+        <Outlet/>
+      </div>
     </>
   )
 }
