@@ -12,3 +12,14 @@ export async function createProject(formData: Omit<projectSchema, '_id'>) {
     }
   }
 }
+
+export async function getProjects() {
+  try {
+    const { data } = await api.get('/projects')
+    return data
+  } catch (error) {
+    if(isAxiosError(error)){
+      throw new Error(error.response?.data.error)
+    }
+  }
+}
