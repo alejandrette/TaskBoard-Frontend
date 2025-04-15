@@ -1,4 +1,5 @@
 import ProjectForm from "@/components/ProjectForm";
+import { createProject } from "@/services/ProjectApi";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { projectSchema } from "types";
@@ -13,7 +14,7 @@ export default function CreateProjectView() {
   const {register, handleSubmit, formState: {errors}} = useForm({defaultValues: initialValues})
 
   const handleForm = (data: Omit<projectSchema, '_id'>) => {
-    console.log(data);
+    createProject(data)
   }
 
   return (
