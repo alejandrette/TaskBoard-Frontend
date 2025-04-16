@@ -14,10 +14,10 @@ type EditProjectFormProps = {
 export default function EditProjectForm({ project, projectId }: EditProjectFormProps) {
   const navigate = useNavigate()
   const initialValues: Omit<projectSchema, '_id'> = {
-      projectName: project.projectName,
-      clientName: project.clientName,
-      description: project.description
-    }
+    projectName: project.projectName,
+    clientName: project.clientName,
+    description: project.description
+  }
   
   const {register, handleSubmit, formState: {errors}} = useForm({ defaultValues: initialValues })
 

@@ -1,9 +1,14 @@
 import api from "@/lib/axios";
 import { isAxiosError } from "axios";
-import { projectSchema } from "types";
+import { projectSchema, TaskInputSchema } from "types";
 
 type updateProjectProps = {
   formData: Omit<projectSchema, '_id'>;
+  projectId: string;
+}
+
+type createTaskProps = {
+  formData: TaskInputSchema;
   projectId: string;
 }
 
@@ -54,6 +59,17 @@ export async function updateProject({ formData, projectId }: updateProjectProps)
 export async function deleteProject(projectId: projectSchema['_id']) {
   try {
     const { data } = await api.delete(`/projects/${projectId}`)
+    return data
+  } catch (error) {
+    if(isAxiosError(error)){
+      throw new Error(error.response?.data.errors)
+    }
+  }
+}
+
+export async function createTask({ formData, projectId }: createTaskProps) {
+  try {
+    const { data } = await api.post(`/projects/${projectId}/tasks`, formData)
     return data
   } catch (error) {
     if(isAxiosError(error)){
