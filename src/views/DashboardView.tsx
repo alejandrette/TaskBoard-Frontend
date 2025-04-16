@@ -29,7 +29,7 @@ export default function DashboardView() {
       </div>
 
       <div className="my-4">
-        <Link to="/createproject">
+        <Link to="/project/create">
           <button className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-semibold transition">
             + New Project
           </button>
@@ -46,7 +46,7 @@ export default function DashboardView() {
         {!isPending && projects.length === 0 && (
           <p className="text-gray-600">
             There are no projects yet. You can{" "}
-            <Link to="/createproject" className="text-purple-600 font-bold underline">
+            <Link to="/project/create" className="text-purple-600 font-bold underline">
               create one
             </Link>.
           </p>

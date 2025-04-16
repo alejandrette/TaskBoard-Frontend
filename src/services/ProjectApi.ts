@@ -2,6 +2,11 @@ import api from "@/lib/axios";
 import { isAxiosError } from "axios";
 import { projectSchema } from "types";
 
+type updateProjectProps = {
+  formData: Omit<projectSchema, '_id'>;
+  projectId: string;
+}
+
 export async function createProject(formData: Omit<projectSchema, '_id'>) {
   try {
     const { data } = await api.post('/projects', formData)
@@ -19,7 +24,29 @@ export async function getProjects() {
     return data
   } catch (error) {
     if(isAxiosError(error)){
-      throw new Error(error.response?.data.error)
+      throw new Error(error.response?.data.errors)
+    }
+  }
+}
+
+export async function getProjectById(projectId: projectSchema['_id']) {
+  try {
+    const { data } = await api.get(`/projects/${projectId}`)
+    return data
+  } catch (error) {
+    if(isAxiosError(error)){
+      throw new Error(error.response?.data.errors)
+    }
+  }
+}
+
+export async function updateProject({ formData, projectId }: updateProjectProps) {
+  try {
+    const { data } = await api.put(`/projects/${projectId}`, formData)
+    return data
+  } catch (error) {
+    if(isAxiosError(error)){
+      throw new Error(error.response?.data.errors)
     }
   }
 }

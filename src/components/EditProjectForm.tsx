@@ -1,39 +1,51 @@
-import ProjectForm from "@/components/ProjectForm";
-import { createProject } from "@/services/ProjectApi";
-import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import ProjectForm from "./ProjectForm";
+import { useForm } from "react-hook-form";
+import { projectSchema } from "../types";
+import { useMutation } from "@tanstack/react-query";
+import { updateProject } from "@/services/ProjectApi";
 import { toast } from "react-toastify";
-import { projectSchema } from "types";
 
-export default function CreateProjectView() {
+type EditProjectFormProps = {
+  project: projectSchema;
+  projectId: string | undefined
+}
+
+export default function EditProjectForm({ project, projectId }: EditProjectFormProps) {
   const navigate = useNavigate()
   const initialValues: Omit<projectSchema, '_id'> = {
-    projectName: '',
-    clientName: '',
-    description: ''
-  }
-
+      projectName: project.projectName,
+      clientName: project.clientName,
+      description: project.description
+    }
+  
   const {register, handleSubmit, formState: {errors}} = useForm({ defaultValues: initialValues })
 
   const mutation = useMutation({
-    mutationFn: createProject,
+    mutationFn: updateProject,
     onError: (error) => {
       toast.error(error.message)
     },
     onSuccess: (response) => {
-      toast.success(response)
+      toast.success(response.message)
       navigate('/')
     }
   })
 
-  const handleForm = (data: Omit<projectSchema, '_id'>) => mutation.mutate(data)
+  const handleForm = (formData: Omit<projectSchema, '_id'>) => {
+    if (!projectId) return toast.error('Missing project ID')
+      
+    mutation.mutate({
+      formData,
+      projectId 
+    })
+  }
 
   return (
     <>
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-slate-800">Create Project</h1>
-        <p className="text-gray-500">Fill in the following form to create a new project.</p>
+        <h1 className="text-3xl font-bold text-slate-800">Edit Project</h1>
+        <p className="text-gray-500">Fill in the following form to edit project.</p>
       </div>
 
       <div className="flex justify-between items-center">
@@ -53,7 +65,7 @@ export default function CreateProjectView() {
 
         <div className="text-right">
           <button className="px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-lg transition">
-            Create Project
+            Save Change
           </button>
         </div>
       </form>
