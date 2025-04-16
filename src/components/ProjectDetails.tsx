@@ -78,7 +78,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
         </Transition>
       </Menu>
 
-      <h2 className="text-xl font-bold text-slate-800">{project.projectName}</h2>
+      <h2 className="text-xl font-bold text-slate-800 hover:text-purple-800 hover:underline-offset-2 transition-colors"><Link to={`/project/${project._id}`}>{project.projectName}</Link></h2>
       <p className="text-sm text-gray-500">Client: {project.clientName}</p>
       <p className="text-gray-700">{project.description}</p>
     </div>

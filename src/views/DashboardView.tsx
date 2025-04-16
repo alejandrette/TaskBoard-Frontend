@@ -5,10 +5,10 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
-import { projectSchema } from "../types";
+import { ProjectSchema } from "../types";
 
 export default function DashboardView() {
-  const { isPending, error, data } = useQuery<{ data: projectSchema[] }>({
+  const { isPending, error, data } = useQuery<{ data: ProjectSchema[] }>({
     queryKey: ['projects'],
     queryFn: getProjects
   });

@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import AddTaskModal from "@/components/ModalCreateTask";
 import { ProjectSchema } from "@/types/index";
+import TaskList from "@/components/TaskList";
 
 export default function ViewProjectDetail() {
   const { projectId } = useParams();
@@ -33,8 +34,6 @@ export default function ViewProjectDetail() {
     );
   }
 
-  console.log(project)
-
   return (
     <>
       <div className="max-w-3xl mx-auto mt-10 space-y-6 bg-white p-6 rounded shadow-md border border-gray-200">
@@ -58,7 +57,7 @@ export default function ViewProjectDetail() {
         </div>
       </div>
 
-      {/* <TaskList tasks={project} /> */}
+      <TaskList tasks={project?.tasks ?? []} />
 
       {isModalOpen && <AddTaskModal closeModal={() => setIsModalOpen(false)} />}
     </>
