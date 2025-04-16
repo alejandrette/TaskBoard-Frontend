@@ -3,12 +3,30 @@ import { SlOptionsVertical } from 'react-icons/sl'
 import { Fragment } from 'react'
 import { projectSchema } from "../types"
 import { Link } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteProject } from '@/services/ProjectApi';
+import { toast } from 'react-toastify';
 
 type ProjectDetailsProps = {
   project: projectSchema;
 };
 
 export default function ProjectDetails({ project }: ProjectDetailsProps) {
+
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn: deleteProject,
+    onError: (error) => {
+      toast.error(error.message)
+    },
+    onSuccess: (response) => {
+      toast.success(response.message)
+      queryClient.invalidateQueries({ queryKey: ['projects'] })
+    }
+  })
+
+  const handleClick = (projectId: projectSchema['_id']) => mutation.mutate(projectId)
+
   return (
     <div className="relative bg-white p-6 rounded-lg shadow-md border border-gray-200 space-y-2">
       <Menu as="div" className="absolute right-4 inset-y-0 flex items-center text-right">
@@ -48,6 +66,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
             <Menu.Item>
               <button
                 className="group flex w-full items-center rounded-md px-2 py-2 text-sm text-red-700 hover:bg-red-100 hover:text-red-800 transition"
+                onClick={() => handleClick(project._id)}
               >
                 Delete Project
               </button>
