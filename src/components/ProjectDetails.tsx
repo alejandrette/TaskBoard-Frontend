@@ -1,14 +1,14 @@
 import { Menu, Transition } from '@headlessui/react'
 import { SlOptionsVertical } from 'react-icons/sl'
 import { Fragment } from 'react'
-import { projectSchema } from "../types"
 import { Link } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteProject } from '@/services/ProjectApi';
 import { toast } from 'react-toastify';
+import { ProjectSchema } from '../types';
 
 type ProjectDetailsProps = {
-  project: projectSchema;
+  project: ProjectSchema;
 };
 
 export default function ProjectDetails({ project }: ProjectDetailsProps) {
@@ -25,7 +25,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
     }
   })
 
-  const handleClick = (projectId: projectSchema['_id']) => mutation.mutate(projectId)
+  const handleClick = (projectId: ProjectSchema['_id']) => mutation.mutate(projectId)
 
   return (
     <div className="relative bg-white p-6 rounded-lg shadow-md border border-gray-200 space-y-2">

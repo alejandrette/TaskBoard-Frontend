@@ -1,11 +1,14 @@
-export type projectSchema = {
+export type ProjectSchema = {
   _id: string;
   projectName: string;
   clientName: string;
   description: string;
+  tasks: TaskSchema[];
 }
 
-export type taskSchema = {
+export type ProjectInputSchema = Omit<ProjectSchema, '_id' | 'tasks'>
+
+export type TaskSchema = {
   _id: string,
   name: string,
   description: string,
@@ -13,4 +16,4 @@ export type taskSchema = {
   project: string,
 }
 
-export type TaskInputSchema = Omit<taskSchema, '_id' | 'status' | 'project'>
+export type TaskInputSchema = Omit<TaskSchema, '_id' | 'status' | 'project'>

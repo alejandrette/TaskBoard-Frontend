@@ -1,9 +1,9 @@
 import api from "@/lib/axios";
 import { isAxiosError } from "axios";
-import { projectSchema, TaskInputSchema } from "types";
+import { ProjectInputSchema, ProjectSchema, TaskInputSchema } from "types";
 
 type updateProjectProps = {
-  formData: Omit<projectSchema, '_id'>;
+  formData: ProjectInputSchema;
   projectId: string;
 }
 
@@ -12,7 +12,7 @@ type createTaskProps = {
   projectId: string;
 }
 
-export async function createProject(formData: Omit<projectSchema, '_id'>) {
+export async function createProject(formData: ProjectInputSchema) {
   try {
     const { data } = await api.post('/projects', formData)
     return data
@@ -34,7 +34,7 @@ export async function getProjects() {
   }
 }
 
-export async function getProjectById(projectId: projectSchema['_id']) {
+export async function getProjectById(projectId: ProjectSchema['_id']) {
   try {
     const { data } = await api.get(`/projects/${projectId}`)
     return data
@@ -56,7 +56,7 @@ export async function updateProject({ formData, projectId }: updateProjectProps)
   }
 }
 
-export async function deleteProject(projectId: projectSchema['_id']) {
+export async function deleteProject(projectId: ProjectSchema['_id']) {
   try {
     const { data } = await api.delete(`/projects/${projectId}`)
     return data

@@ -4,14 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "@/services/ProjectApi";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
-import { projectSchema } from "@/types/index";
 import AddTaskModal from "@/components/ModalCreateTask";
+import { ProjectSchema } from "@/types/index";
 
 export default function ViewProjectDetail() {
   const { projectId } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { isPending, error, data } = useQuery<{ data: projectSchema }>({
+  const { isPending, error, data } = useQuery<{ data: ProjectSchema }>({
     queryKey: ["editProject", projectId],
     queryFn: () => getProjectById(projectId!),
     retry: false,
@@ -32,6 +32,8 @@ export default function ViewProjectDetail() {
       </div>
     );
   }
+
+  console.log(project)
 
   return (
     <>
@@ -55,6 +57,8 @@ export default function ViewProjectDetail() {
           <p>{project?.description}</p>
         </div>
       </div>
+
+      {/* <TaskList tasks={project} /> */}
 
       {isModalOpen && <AddTaskModal closeModal={() => setIsModalOpen(false)} />}
     </>

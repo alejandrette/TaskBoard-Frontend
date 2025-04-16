@@ -1,19 +1,20 @@
 import { Link, useNavigate } from "react-router-dom";
 import ProjectForm from "./ProjectForm";
 import { useForm } from "react-hook-form";
-import { projectSchema } from "../types";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateProject } from "@/services/ProjectApi";
 import { toast } from "react-toastify";
+import { ProjectInputSchema, ProjectSchema } from "../types";
 
 type EditProjectFormProps = {
-  project: projectSchema;
+  project: ProjectSchema;
   projectId: string | undefined
 }
 
 export default function EditProjectForm({ project, projectId }: EditProjectFormProps) {
   const navigate = useNavigate()
-  const initialValues: Omit<projectSchema, '_id'> = {
+  const initialValues: ProjectInputSchema = {
     projectName: project.projectName,
     clientName: project.clientName,
     description: project.description
@@ -35,7 +36,7 @@ export default function EditProjectForm({ project, projectId }: EditProjectFormP
     }
   })
 
-  const handleForm = (formData: Omit<projectSchema, '_id'>) => {
+  const handleForm = (formData: ProjectInputSchema) => {
     if (!projectId) return toast.error('Missing project ID')
       
     mutation.mutate({
