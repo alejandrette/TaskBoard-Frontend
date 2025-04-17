@@ -13,7 +13,7 @@ export default function ViewProjectDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { isPending, error, data } = useQuery<{ data: ProjectSchema }>({
-    queryKey: ["editProject", projectId],
+    queryKey: ["viewTask", projectId],
     queryFn: () => getProjectById(projectId!),
     retry: false,
   });

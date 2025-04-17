@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { TaskInputSchema } from "../types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTask } from "@/services/ProjectApi";
 
 type AddTaskModalProps = {
@@ -22,6 +22,7 @@ export default function AddTaskModal({ closeModal }: AddTaskModalProps) {
 
   const {register, handleSubmit, formState: {errors}} = useForm<TaskInputSchema>({ defaultValues: initialValues })
 
+  const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: createTask,
     onError: (error) => {
@@ -29,6 +30,7 @@ export default function AddTaskModal({ closeModal }: AddTaskModalProps) {
       closeModal()
     },
     onSuccess: (response) => {
+      queryClient.invalidateQueries({ queryKey: ["viewTask", projectId] })
       toast.success(response)
       closeModal()
     }
@@ -84,22 +86,22 @@ export default function AddTaskModal({ closeModal }: AddTaskModalProps) {
                   noValidate 
                 >
                   <CreateTaskForm register={register} errors={errors} />
-          
-                  <div className="text-right">
-                    <button className="px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-lg transition">
+            
+                  <div className="mt-10 flex justify-between items-center">
+                    <button
+                      onClick={closeModal}
+                      className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      className="px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-lg transition"
+                    >
                       Create Task
                     </button>
                   </div>
                 </form>
-
-                <div className="mt-10">
-                  <button
-                    onClick={closeModal}
-                    className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
-                  >
-                    Cancel
-                  </button>
-                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>
