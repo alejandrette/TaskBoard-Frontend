@@ -1,13 +1,17 @@
 import { Menu, Transition } from "@headlessui/react";
 import { TaskSchema } from "../types"
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import { Fragment } from "react";
+import { Dispatch, Fragment } from "react";
+import { useNavigate } from "react-router-dom";
 
 type TaskCardProps = {
   task: TaskSchema;
+  setIsModalEditOpen: Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function TaskCard({ task }: TaskCardProps) {
+export default function TaskCard({ task, setIsModalEditOpen }: TaskCardProps) {
+  const navigate = useNavigate()
+
   return (
     <li className="bg-white border rounded-md p-4 shadow-sm relative group transition hover:shadow-lg">
       <div className="space-y-2">
@@ -38,7 +42,10 @@ export default function TaskCard({ task }: TaskCardProps) {
                   </button>
                 </Menu.Item>
                 <Menu.Item>
-                  <button type='button' className='block px-3 py-1 text-sm leading-6 text-gray-900'>
+                  <button 
+                    type='button' className='block px-3 py-1 text-sm leading-6 text-gray-900'
+                    onClick={() => {navigate(`${location.pathname}?editTask=${task._id}`); setIsModalEditOpen(true)}}  
+                  >
                     Edit Task
                   </button>
                 </Menu.Item>

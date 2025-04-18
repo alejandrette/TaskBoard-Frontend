@@ -7,10 +7,12 @@ import { ClipLoader } from "react-spinners";
 import AddTaskModal from "@/components/ModalCreateTask";
 import { ProjectSchema } from "@/types/index";
 import TaskList from "@/components/TaskList";
+import EditTaskModal from "@/components/EditTaskModal";
 
 export default function ViewProjectDetail() {
   const { projectId } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
 
   const { isPending, error, data } = useQuery<{ data: ProjectSchema }>({
     queryKey: ["viewTask", projectId],
@@ -57,9 +59,10 @@ export default function ViewProjectDetail() {
         </div>
       </div>
 
-      <TaskList tasks={project?.tasks ?? []} />
+      <TaskList tasks={project?.tasks ?? []} setIsModalEditOpen={setIsModalEditOpen} />
 
       {isModalOpen && <AddTaskModal closeModal={() => setIsModalOpen(false)} />}
+      {isModalEditOpen && <EditTaskModal closeModal={() => setIsModalEditOpen(false)} />}
     </>
   );
 }

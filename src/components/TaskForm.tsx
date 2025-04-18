@@ -7,7 +7,7 @@ type CreateTaskFormProps = {
   register: UseFormRegister<TaskInputSchema>;
 }
 
-export default function CreateTaskForm({errors, register}: CreateTaskFormProps) {
+export default function TaskForm({errors, register}: CreateTaskFormProps) {
     return (
         <>
             <div className="flex flex-col gap-5">

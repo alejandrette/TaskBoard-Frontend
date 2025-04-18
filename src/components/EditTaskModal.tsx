@@ -1,47 +1,65 @@
-import { Fragment } from "react";
+import { getTaskById, updateTask } from "@/services/ProjectApi";
 import { Dialog, Transition } from "@headlessui/react";
-import CreateTaskForm from "./TaskForm";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { Fragment } from "react/jsx-runtime";
 import { TaskInputSchema } from "../types";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createTask } from "@/services/ProjectApi";
+import TaskForm from "./TaskForm";
+import { useEffect } from "react";
 
-type AddTaskModalProps = {
+type EditTaskModalProps = {
   closeModal: () => void;
-};
+}
 
-export default function AddTaskModal({ closeModal }: AddTaskModalProps) {
-  const { projectId } = useParams()
-  const initialValues = {
-    projectName: '',
-    clientName: '',
-    description: ''
-  }
+export default function EditTaskModal({ closeModal }: EditTaskModalProps) {
+  const projectId = useParams().projectId!;
 
-  const {register, handleSubmit, formState: {errors}} = useForm<TaskInputSchema>({ defaultValues: initialValues })
+  const { search } = useLocation()
+  const queryParams = new URLSearchParams(search)
+  const taskId = queryParams.get('editTask')!
+
+  const { data } = useQuery({
+    queryKey: ['task', taskId],
+    queryFn: () => getTaskById({ projectId, taskId })
+  })
+  
+  const {register, handleSubmit, formState: {errors}, reset} = useForm<TaskInputSchema>({ defaultValues: {
+    name: data?.name || '',
+    description: data?.description || ''
+  }})
+
+  useEffect(() => {
+    if (data) {
+      reset({
+        name: data?.name,
+        description: data?.description
+      })
+    }
+  }, [data, reset])
 
   const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationFn: createTask,
+    mutationFn: updateTask,
     onError: (error) => {
       toast.error(error.message)
       closeModal()
     },
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ["viewTask", projectId] })
-      toast.success(response)
+    onSuccess: async (response) => {
+      await queryClient.invalidateQueries({ queryKey: ["viewTask", projectId] })
+      toast.success(response.message)
       closeModal()
     }
   })
 
   const handleForm = (formData: TaskInputSchema) => {
-    if (!projectId) return toast.error('Missing project ID')
-    
+    if (!taskId) return toast.error('Missing task ID')
+
     mutation.mutate({
       formData,
-      projectId 
+      projectId,
+      taskId
     })
   }
 
@@ -73,22 +91,23 @@ export default function AddTaskModal({ closeModal }: AddTaskModalProps) {
             >
               <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-10">
                 <Dialog.Title as="h3" className="font-black text-4xl my-5">
-                  New Task
+                  Edit Task
                 </Dialog.Title>
 
                 <p className="text-xl font-bold">
                   Fill out the form and  {''}
-                  <span className="text-fuchsia-600">create a task</span>
+                  <span className="text-fuchsia-600">edit task</span>
                 </p>
 
                 <form 
                   onSubmit={handleSubmit(handleForm)} 
                   noValidate 
                 >
-                  <CreateTaskForm register={register} errors={errors} />
+                  <TaskForm register={register} errors={errors} />
             
                   <div className="mt-10 flex justify-between items-center">
                     <button
+                      type="button"
                       onClick={closeModal}
                       className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
                     >
@@ -96,9 +115,10 @@ export default function AddTaskModal({ closeModal }: AddTaskModalProps) {
                     </button>
 
                     <button
+                      type="submit"
                       className="px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-lg transition"
                     >
-                      Create Task
+                      Save Changes
                     </button>
                   </div>
                 </form>
@@ -108,5 +128,5 @@ export default function AddTaskModal({ closeModal }: AddTaskModalProps) {
         </div>
       </Dialog>
     </Transition>
-  );
+  )
 }
