@@ -1,6 +1,6 @@
 import EditProjectForm from "@/components/EditProjectForm";
 import { getProjectById } from "@/services/ProjectApi";
-import { projectSchema } from "@/types/index";
+import { ProjectSchema } from "@/types/index";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom"
@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 export default function EditProject() {
   const { projectId } = useParams()
   
-  const { isPending, error, data } = useQuery<{ data: projectSchema }>({
+  const { isPending, error, data } = useQuery<{ data: ProjectSchema }>({
     queryKey: ['editProject', projectId],
     queryFn: () => getProjectById(projectId!),
     retry: false

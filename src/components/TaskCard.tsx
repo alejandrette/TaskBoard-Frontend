@@ -40,7 +40,7 @@ export default function TaskCard({ task, setIsModalEditOpen }: TaskCardProps) {
       <div className="absolute top-2 right-2">
         <Menu as="div" className="relative flex-none">
             <Menu.Button className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
-              <span className="sr-only">opciones</span>
+              <span className="sr-only">options</span>
               <EllipsisVerticalIcon className="h-9 w-9" aria-hidden="true" />
             </Menu.Button>
             <Transition

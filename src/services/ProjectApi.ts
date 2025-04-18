@@ -112,7 +112,7 @@ export async function updateTask({ formData, projectId, taskId }: updateTaskProp
   }
 }
 
-export async function deleteTask({ projectId, taskId }: updateTaskProps) {
+export async function deleteTask({ projectId, taskId }: getTaskByIdProps) {
   try {
     const { data } = await api.delete(`/projects/${projectId}/tasks/${taskId}`)
     return data
