@@ -1,8 +1,11 @@
 import { Menu, Transition } from "@headlessui/react";
-import { TaskSchema } from "../types"
+import { ProjectSchema, TaskSchema } from "../types"
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Dispatch, Fragment } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { deleteTask } from "@/services/ProjectApi";
 
 type TaskCardProps = {
   task: TaskSchema;
@@ -11,6 +14,21 @@ type TaskCardProps = {
 
 export default function TaskCard({ task, setIsModalEditOpen }: TaskCardProps) {
   const navigate = useNavigate()
+  const projectId = useParams().projectId!;
+
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn: deleteTask,
+    onError: (error) => {
+      toast.error(error.message)
+    },
+    onSuccess: (response) => {
+      toast.success(response.message)
+      queryClient.invalidateQueries({ queryKey: ["viewTask", projectId] })
+    }
+  })
+
+  const handleClick = (projectId: ProjectSchema['_id'], taskId: TaskSchema['_id']) => mutation.mutate({ projectId, taskId })
 
   return (
     <li className="bg-white border rounded-md p-4 shadow-sm relative group transition hover:shadow-lg">
@@ -51,7 +69,10 @@ export default function TaskCard({ task, setIsModalEditOpen }: TaskCardProps) {
                 </Menu.Item>
 
                 <Menu.Item>
-                  <button type='button' className='block px-3 py-1 text-sm leading-6 text-red-500'>
+                  <button 
+                    type='button' className='block px-3 py-1 text-sm leading-6 text-red-500'
+                    onClick={() => handleClick(projectId, task._id)} 
+                  >
                     Delete Task
                   </button>
                 </Menu.Item>

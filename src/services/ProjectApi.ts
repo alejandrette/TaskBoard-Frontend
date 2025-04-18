@@ -111,3 +111,14 @@ export async function updateTask({ formData, projectId, taskId }: updateTaskProp
     }
   }
 }
+
+export async function deleteTask({ projectId, taskId }: updateTaskProps) {
+  try {
+    const { data } = await api.delete(`/projects/${projectId}/tasks/${taskId}`)
+    return data
+  } catch (error) {
+    if(isAxiosError(error)){
+      throw new Error(error.response?.data.errors)
+    }
+  }
+}
