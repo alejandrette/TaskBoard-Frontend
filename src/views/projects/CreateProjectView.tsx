@@ -4,17 +4,17 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { projectSchema } from "types";
+import { ProjectInputSchema } from "types";
 
 export default function CreateProjectView() {
   const navigate = useNavigate()
-  const initialValues: Omit<projectSchema, '_id'> = {
+  const initialValues: ProjectInputSchema = {
     projectName: '',
     clientName: '',
     description: ''
   }
 
-  const {register, handleSubmit, formState: {errors}} = useForm({ defaultValues: initialValues })
+  const {register, handleSubmit, formState: {errors}} = useForm<ProjectInputSchema>({ defaultValues: initialValues })
 
   const mutation = useMutation({
     mutationFn: createProject,
@@ -27,7 +27,7 @@ export default function CreateProjectView() {
     }
   })
 
-  const handleForm = (data: Omit<projectSchema, '_id'>) => mutation.mutate(data)
+  const handleForm = (data: ProjectInputSchema) => mutation.mutate(data)
 
   return (
     <>
