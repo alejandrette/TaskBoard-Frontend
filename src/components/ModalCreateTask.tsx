@@ -31,7 +31,7 @@ export default function AddTaskModal({ closeModal }: AddTaskModalProps) {
     },
     onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ["viewTask", projectId] })
-      toast.success(response)
+      toast.success(response.message)
       closeModal()
     }
   })

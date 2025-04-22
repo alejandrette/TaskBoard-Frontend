@@ -22,7 +22,7 @@ export default function CreateProjectView() {
       toast.error(error.message)
     },
     onSuccess: (response) => {
-      toast.success(response)
+      toast.success(response.message)
       navigate('/')
     }
   })
