@@ -14,6 +14,8 @@ export type TaskSchema = {
   description: string,
   status: string,
   project: string,
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type TaskInputSchema = Omit<TaskSchema, '_id' | 'status' | 'project'>

@@ -8,11 +8,13 @@ import AddTaskModal from "@/components/ModalCreateTask";
 import { ProjectSchema } from "@/types/index";
 import TaskList from "@/components/TaskList";
 import EditTaskModal from "@/components/EditTaskModal";
+import ModalTask from "@/components/ModalTask";
 
 export default function ViewProjectDetail() {
   const { projectId } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
+  const [isModalTask, setIsModalTask] = useState(false);
 
   const { isPending, error, data } = useQuery<{ data: ProjectSchema }>({
     queryKey: ["viewTask", projectId],
@@ -67,10 +69,11 @@ export default function ViewProjectDetail() {
         </div>
       </div>
 
-      <TaskList tasks={project?.tasks ?? []} setIsModalEditOpen={setIsModalEditOpen} />
+      <TaskList tasks={project?.tasks ?? []} setIsModalEditOpen={setIsModalEditOpen} setIsModalTask={setIsModalTask} />
 
       {isModalOpen && <AddTaskModal closeModal={() => setIsModalOpen(false)} />}
       {isModalEditOpen && <EditTaskModal closeModal={() => setIsModalEditOpen(false)} />}
+      {isModalTask && <ModalTask closeModal={() => setIsModalTask(false)} />}
     </>
   );
 }

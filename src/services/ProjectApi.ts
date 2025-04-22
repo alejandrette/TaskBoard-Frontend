@@ -17,6 +17,11 @@ type getTaskByIdProps = {
   taskId: TaskSchema['_id'];
 }
 
+type updateStatusProps = {
+  projectId: ProjectSchema['_id'];
+  taskId: TaskSchema['_id'];
+  status: string;
+}
 
 type updateTaskProps = {
   formData: TaskInputSchema;
@@ -119,6 +124,19 @@ export async function deleteTask({ projectId, taskId }: getTaskByIdProps) {
   } catch (error) {
     if(isAxiosError(error)){
       throw new Error(error.response?.data.errors)
+    }
+  }
+}
+
+export async function updateStatus({ projectId, taskId, status }: updateStatusProps) {
+  try {
+    const { data } = await api.post(`/projects/${projectId}/tasks/${taskId}/status`, { status })
+    console.log(data)
+    return data
+  } catch (error) {
+    if(isAxiosError(error)){
+      console.log(error.response?.data.errors[0].msg)
+      throw new Error(error.response?.data.errors[0].msg)
     }
   }
 }

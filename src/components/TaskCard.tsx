@@ -10,9 +10,10 @@ import { deleteTask } from "@/services/ProjectApi";
 type TaskCardProps = {
   task: TaskSchema;
   setIsModalEditOpen: Dispatch<React.SetStateAction<boolean>>
+  setIsModalTask: Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function TaskCard({ task, setIsModalEditOpen }: TaskCardProps) {
+export default function TaskCard({ task, setIsModalEditOpen, setIsModalTask }: TaskCardProps) {
   const navigate = useNavigate()
   const projectId = useParams().projectId!;
 
@@ -55,14 +56,19 @@ export default function TaskCard({ task, setIsModalEditOpen }: TaskCardProps) {
               <Menu.Items
                 className="absolute right-0 z-50 w-56 origin-top-right transform bg-white py-2 shadow-lg ring-1 ring-black/5">
                 <Menu.Item>
-                  <button type='button' className='block px-3 py-1 text-sm leading-6 text-gray-900'>
+                  <button 
+                    type='button' 
+                    className='block px-3 py-1 text-sm leading-6 text-gray-900'
+                    onClick={() => {navigate(`${location.pathname}?viewTask=${task._id}`); setIsModalTask(true)}}  
+                  >
                     View Task
                   </button>
                 </Menu.Item>
                 <Menu.Item>
                   <button 
-                    type='button' className='block px-3 py-1 text-sm leading-6 text-gray-900'
-                    onClick={() => {navigate(`${location.pathname}?editTask=${task._id}`); setIsModalEditOpen(true)}}  
+                    type='button' 
+                    className='block px-3 py-1 text-sm leading-6 text-gray-900'
+                    onClick={() => {navigate(`${location.pathname}?editTask=${task._id}`); setIsModalEditOpen(true)}}
                   >
                     Edit Task
                   </button>

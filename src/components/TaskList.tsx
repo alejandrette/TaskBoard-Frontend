@@ -5,6 +5,7 @@ import TaskCard from "./TaskCard";
 type TaskListProps = {
   tasks: TaskSchema[];
   setIsModalEditOpen: Dispatch<React.SetStateAction<boolean>>
+  setIsModalTask: Dispatch<React.SetStateAction<boolean>>
 }
 
 type GroupTask = {
@@ -35,7 +36,7 @@ const statusStyles: Record<string, string> = {
   completed: "border-t-emerald-500",
 };
 
-export default function TaskList({ tasks, setIsModalEditOpen }: TaskListProps) {
+export default function TaskList({ tasks, setIsModalEditOpen, setIsModalTask }: TaskListProps) {
 
   const groupedTasks = tasks.reduce((acc, task) => {
     let currentGroup = acc[task.status] ? [...acc[task.status]] : [];
@@ -61,7 +62,7 @@ export default function TaskList({ tasks, setIsModalEditOpen }: TaskListProps) {
               {tasks.length === 0 ? (
                 <li className="text-gray-400 text-center">No tasks</li>
               ) : (
-                tasks.map((task) => <TaskCard key={task._id} task={task} setIsModalEditOpen={setIsModalEditOpen} />)
+                tasks.map((task) => <TaskCard key={task._id} task={task} setIsModalEditOpen={setIsModalEditOpen} setIsModalTask={setIsModalTask} />)
               )}
             </ul>
           </div>
