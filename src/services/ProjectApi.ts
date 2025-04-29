@@ -135,7 +135,6 @@ export async function updateStatus({ projectId, taskId, status }: updateStatusPr
     return data
   } catch (error) {
     if(isAxiosError(error)){
-      console.log(error.response?.data.errors[0].msg)
       throw new Error(error.response?.data.errors[0].msg)
     }
   }

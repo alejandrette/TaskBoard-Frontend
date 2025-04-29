@@ -19,3 +19,15 @@ export type TaskSchema = {
 }
 
 export type TaskInputSchema = Omit<TaskSchema, '_id' | 'status' | 'project'>
+
+export type UserLoginForm = {
+  email: string;
+  password: string;
+}
+
+export type UserRegistrationForm = {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+}
