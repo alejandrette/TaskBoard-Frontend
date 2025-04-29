@@ -24,14 +24,17 @@ export default function Singup() {
     mutationFn: createAccount,
     onError: (error) => {
       toast.error(error.message)
-    },
-    onSuccess: (response) => {
-      toast.success(response)
-      navigate('/auth/confirm-account')
     }
   })
 
-  const handleRegister = (formData: UserRegistrationForm) => { mutation.mutate(formData) }
+  const handleRegister = (formData: UserRegistrationForm) => { 
+    mutation.mutate(formData, {
+      onSuccess: (response) => {
+        toast.success(response)
+        navigate('/auth/confirm-account', { state: { email: formData.email }})
+      }
+    }) 
+  }
 
   return (
     <>

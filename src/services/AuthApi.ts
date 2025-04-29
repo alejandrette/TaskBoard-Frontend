@@ -34,3 +34,16 @@ export const loginAcount = async (formData: UserLoginForm) => {
     }
   }
 }
+
+export const requestToken = async (email: string) => {
+  try {
+    const { data } = await api.post('/auth/request-token', email)
+    console.log(data)
+    return data
+  } catch (error) {
+    if(isAxiosError(error)){
+      console.log(error)
+      throw new Error(error.response?.data.errors)
+    }
+  }
+}

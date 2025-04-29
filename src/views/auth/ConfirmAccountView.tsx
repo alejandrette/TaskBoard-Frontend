@@ -1,28 +1,58 @@
-import { confirmAcount } from "@/services/AuthApi";
+import { confirmAcount, requestToken } from "@/services/AuthApi";
+import { PinInput, PinInputField } from "@chakra-ui/pin-input";
 import { useMutation } from "@tanstack/react-query";
 import { FormEvent, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function ConfirmAccountView() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const location = useLocation()
+  const email = searchParams.get('email') || (location.state as { email?: string })?.email
   const [token, setToken] = useState<string>('')
+
+  const handleChange = (token: string) => {
+    setToken(token)
+  }
 
   const mutation = useMutation({
     mutationFn: confirmAcount,
-      onError: (error) => {
-        toast.error(error.message)
-      },
-      onSuccess: (response) => {
-        toast.success(response)
-        navigate('/auth/login')
-      }
+    onError: (error) => {
+      toast.error(error.message)
+    },
+    onSuccess: (response) => {
+      toast.success(response)
+      navigate('/auth/login')
+    }
   })
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => { 
+  const mutationEmail = useMutation({
+    mutationFn: requestToken,
+    onError: (error) => {
+      console.log(error)
+      toast.error(error.message)
+    },
+    onSuccess: (response) => {
+      toast.success(response)
+    }
+  })
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     mutation.mutate(token)
   }
+
+  const handleComplete = (completeToken: string) => { mutation.mutate(completeToken) }
+
+  const handleClick = () => { 
+    if (!email) {
+      toast.error("Missing email in URL")
+      return
+    }
+  
+    mutationEmail.mutate(email)
+   }
 
   return (
     <>
@@ -40,13 +70,16 @@ export default function ConfirmAccountView() {
           >
             6-digit Code
           </label>
-          <input
-            id="token"
-            type="text"
-            onChange={e => setToken(e.target.value)}
-            placeholder="Enter your code"
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-fuchsia-400 text-center text-lg tracking-widest"
-          />
+          <div className="flex justify-center gap-3">
+            <PinInput value={token} onChange={handleChange} onComplete={handleComplete}>
+              <PinInputField className="w-12 h-12 text-center text-xl border-2 border-gray-300 rounded-lg focus:border-fuchsia-500 focus:outline-none" />
+              <PinInputField className="w-12 h-12 text-center text-xl border-2 border-gray-300 rounded-lg focus:border-fuchsia-500 focus:outline-none" />
+              <PinInputField className="w-12 h-12 text-center text-xl border-2 border-gray-300 rounded-lg focus:border-fuchsia-500 focus:outline-none" />
+              <PinInputField className="w-12 h-12 text-center text-xl border-2 border-gray-300 rounded-lg focus:border-fuchsia-500 focus:outline-none" />
+              <PinInputField className="w-12 h-12 text-center text-xl border-2 border-gray-300 rounded-lg focus:border-fuchsia-500 focus:outline-none" />
+              <PinInputField className="w-12 h-12 text-center text-xl border-2 border-gray-300 rounded-lg focus:border-fuchsia-500 focus:outline-none" />
+            </PinInput>
+          </div>
         </div>
 
         <input
@@ -57,12 +90,13 @@ export default function ConfirmAccountView() {
       </form>
 
       <nav className="mt-8 flex flex-col items-center">
-        <Link
-          to="/auth/new-code"
+        <button
+          onClick={handleClick}
+          disabled={!email}
           className="text-sm text-fuchsia-600 hover:underline"
         >
           Request a new Code
-        </Link>
+        </button>
       </nav>
     </>
   )
