@@ -31,3 +31,5 @@ export type UserRegistrationForm = {
   password: string;
   password_confirmation: string;
 }
+
+export type NewPasswordForm = Pick<UserRegistrationForm, 'password' | 'password_confirmation'>

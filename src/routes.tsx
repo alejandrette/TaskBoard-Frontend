@@ -8,6 +8,8 @@ import AuthLayout from "./layout/AuthLayout";
 import Login from "./views/auth/Login";
 import Singup from "./views/auth/Singup";
 import ConfirmAccountView from "./views/auth/ConfirmAccountView";
+import ForgotPassword from "./views/auth/ForgotPassword";
+import ResetPassword from "./views/auth/ResetPassword";
 
 export function Router() {
   return(
@@ -24,6 +26,8 @@ export function Router() {
           <Route path="/auth/login" element={<Login />} index />
           <Route path="/auth/singup" element={<Singup />} />
           <Route path="/auth/confirm-account" element={<ConfirmAccountView />} />
+          <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+          <Route path="/auth/reset-password" element={<ResetPassword />} />
         </Route>
       </Routes>
     </BrowserRouter>

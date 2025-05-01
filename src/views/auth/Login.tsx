@@ -68,6 +68,7 @@ export default function Login() {
           })}
         />
         {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
+        <Link to='/auth/forgot-password' className="text-gray-500">Forgot Password</Link>
       </div>
 
       <input
@@ -79,7 +80,7 @@ export default function Login() {
         to='/auth/singup'
         className="block text-fuchsia-600 hover:text-fuchsia-700 font-semibold mt-4 transition"
       >
-        If you don't have an account yet, register
+        Already have an account? Sign in
       </Link>
     </form>
   );
