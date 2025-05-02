@@ -1,6 +1,7 @@
 import api from "@/lib/axios"
 import { NewPasswordForm, UserLoginForm, UserRegistrationForm } from "../types"
 import { isAxiosError } from "axios"
+import Cookies from 'js-cookie'
 
 export const createAccount = async (formData: UserRegistrationForm) => {
   try {
@@ -16,6 +17,7 @@ export const createAccount = async (formData: UserRegistrationForm) => {
 export const confirmAcount = async (token: string) => {
   try {
     const { data } = await api.post('/auth/confirm-user', { token })
+    Cookies.set('token', data, { expires: 7 })
     return data
   } catch (error) {
     if(isAxiosError(error)){
@@ -63,7 +65,6 @@ export const validToken = async (token: string) => {
     return data
   } catch (error) {
     if(isAxiosError(error)){
-      console.log(error)
       throw new Error(error.response?.data.errors)
     }
   }
@@ -76,7 +77,6 @@ export const updatePassword = async ({formData, token}: {formData: NewPasswordFo
     return data
   } catch (error) {
     if(isAxiosError(error)){
-      console.log(error)
       throw new Error(error.response?.data.errors)
     }
   }

@@ -20,8 +20,8 @@ export default function Login() {
     onError: (error) => {
       toast.error(error.message)
     },
-    onSuccess: (response) => {
-      toast.success(response)
+    onSuccess: () => {
+      toast.success('Logging in')
       navigate('/')
     }
   })

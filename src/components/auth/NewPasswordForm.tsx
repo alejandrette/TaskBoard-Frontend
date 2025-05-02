@@ -4,7 +4,7 @@ import ErrorMessage from "@/components/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
 import { updatePassword } from "@/services/AuthApi";
 import { toast } from "react-toastify";
-import { NewPasswordForm } from "@/types/index";
+import type { NewPasswordForm } from "@/types/index";
 
 type NewPasswordFormProps ={
   token: string;
