@@ -9,10 +9,6 @@ export default function AppLayout() {
 
   const { data, isError, isLoading } = useAuth()
 
-  console.log(data)
-  console.log(isLoading)
-  console.log(isError)
-
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-40">
@@ -24,9 +20,9 @@ export default function AppLayout() {
     return <Navigate to='/auth/login' />
   }
 
-  return (
+  if(data) return (
     <>
-      <Header />
+      <Header name={data.name} />
       <div className="max-w-screen-2xl mx-auto my-10 space-y-4">
         <Outlet/>
       </div>

@@ -1,5 +1,5 @@
 import api from "@/lib/axios"
-import { NewPasswordForm, UserLoginForm, UserRegistrationForm } from "../types"
+import { NewPasswordForm, User, UserLoginForm, UserRegistrationForm } from "../types"
 import { isAxiosError } from "axios"
 import Cookies from 'js-cookie'
 
@@ -83,7 +83,7 @@ export const updatePassword = async ({formData, token}: {formData: NewPasswordFo
 
 export const getUser = async () => {
   try {
-    const { data } = await api.get(`/auth/user`)
+    const { data } = await api.get<User>(`/auth/user`)
     return data
   } catch (error) {
     if(isAxiosError(error)){

@@ -33,3 +33,9 @@ export type UserRegistrationForm = {
 }
 
 export type NewPasswordForm = Pick<UserRegistrationForm, 'password' | 'password_confirmation'>
+
+export type User = {
+  _id: string;
+  name: string;
+  email: string;
+}

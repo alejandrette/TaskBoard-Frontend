@@ -7,8 +7,21 @@ import {
 import { Bars3Icon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom'
 import { Fragment } from 'react/jsx-runtime'
+import { User } from '../types'
+import Cookies from 'js-cookie'
+import { useQueryClient } from '@tanstack/react-query'
 
-export const NavMenu = () => {
+type NavMenuProps = {
+  name: User['name']
+}
+
+export const NavMenu = ({name}: NavMenuProps) => {
+  const queryClient = useQueryClient()
+  const logout = () => {
+    Cookies.remove('token')
+    queryClient.invalidateQueries({queryKey: ['user']})
+  }
+
   return (
     <Popover className='relative'>
       <PopoverButton className='inline-flex items-center gap-x-1 text-sm font-semibold leading-6 p-1 rounded-lg bg-purple-700'>
@@ -26,7 +39,7 @@ export const NavMenu = () => {
       >
         <PopoverPanel className='absolute left-1/2 z-10 mt-5 flex w-screen lg:max-w-min -translate-x-1/2 lg:-translate-x-48'>
           <div className='w-full lg:w-56 shrink rounded-xl bg-white p-4 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5'>
-            <p className='text-center'>Hello: Usuario</p>
+            <p className='text-center'>Hello: {name}</p>
             <Link
               to='/profile'
               className='block p-2 hover:text-purple-950'
@@ -40,9 +53,9 @@ export const NavMenu = () => {
               My Projects
             </Link>
             <button
-              className='block p-2 hover:text-purple-950'
+              className='block w-full text-left p-2 text-red-600 hover:bg-red-100 hover:text-red-800 rounded-md transition-colors'
               type='button'
-              onClick={() => {}}
+              onClick={logout}
             >
               Logout
             </button>
