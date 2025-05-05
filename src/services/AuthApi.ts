@@ -17,7 +17,6 @@ export const createAccount = async (formData: UserRegistrationForm) => {
 export const confirmAcount = async (token: string) => {
   try {
     const { data } = await api.post('/auth/confirm-user', { token })
-    Cookies.set('token', data, { expires: 7 })
     return data
   } catch (error) {
     if(isAxiosError(error)){
@@ -29,6 +28,7 @@ export const confirmAcount = async (token: string) => {
 export const loginAcount = async (formData: UserLoginForm) => {
   try {
     const { data } = await api.post('/auth/login', formData)
+    Cookies.set('token', data, { expires: 7 })
     return data
   } catch (error) {
     if(isAxiosError(error)){
@@ -73,7 +73,17 @@ export const validToken = async (token: string) => {
 export const updatePassword = async ({formData, token}: {formData: NewPasswordForm, token: string}) => {
   try {
     const { data } = await api.post(`/auth/update-password/${token}`, formData)
-    console.log(data)
+    return data
+  } catch (error) {
+    if(isAxiosError(error)){
+      throw new Error(error.response?.data.errors)
+    }
+  }
+}
+
+export const getUser = async () => {
+  try {
+    const { data } = await api.get(`/auth/user`)
     return data
   } catch (error) {
     if(isAxiosError(error)){
