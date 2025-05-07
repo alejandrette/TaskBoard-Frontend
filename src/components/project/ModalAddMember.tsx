@@ -1,10 +1,12 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { findMember } from "@/services/TeamApi";
+import UserResult from "./UserResult";
+import { User } from "@/types/index";
 
 type ModalAddMemberProps = {
   closeModal: () => void;
@@ -17,17 +19,18 @@ type FormData = {
 export default function ModalAddMember({ closeModal }: ModalAddMemberProps) {
   const { projectId } = useParams()
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>()
+  const [user, setUser] = useState<User | null>()
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: findMember,
     onError: (error) => {
-      toast.error(error.message);
+      setUser(null)
+      toast.error(error.message)
     },
     onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ["viewTask", projectId] });
-      toast.success(response.message);
-      closeModal();
+      setUser(response)
     },
   });
 
@@ -110,10 +113,11 @@ export default function ModalAddMember({ closeModal }: ModalAddMemberProps) {
                       type="submit"
                       className="px-6 py-2 bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-semibold rounded-lg transition"
                     >
-                      Add
+                      Find
                     </button>
                   </div>
                 </form>
+                {user && <UserResult user={user} closeModal={closeModal} />}
               </Dialog.Panel>
             </Transition.Child>
           </div>

@@ -1,11 +1,22 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { RiUserAddLine } from "react-icons/ri";
 import ModalAddMember from "@/components/project/ModalAddMember";
+import { useQuery } from "@tanstack/react-query";
+import { getMembers } from "@/services/TeamApi";
+import { User } from "@/types/index";
+import { ClipLoader } from "react-spinners";
+import TeamMemberList from "@/components/project/TeamMemberList";
 
 export default function ProjectTeam() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const { projectId } = useParams()
+
+  const { isPending, data: members } = useQuery<User[]>({
+    queryKey: ['team', projectId],
+    queryFn: () => getMembers(projectId!)
+  })
 
   return (
     <div className="max-w-3xl mx-auto mt-10 space-y-6 bg-white p-6 rounded shadow-md border border-gray-200">
@@ -34,6 +45,8 @@ export default function ProjectTeam() {
           Add Collaborator
         </button>
       </div>
+
+      {isPending ? <ClipLoader color="#6b21a8" size={40} /> : <TeamMemberList members={members ?? []} />}
 
       {isModalOpen && <ModalAddMember closeModal={() => setIsModalOpen(false)} />}
     </div>

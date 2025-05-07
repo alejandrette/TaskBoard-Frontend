@@ -26,11 +26,20 @@ export async function findMember({ projectId, email }: findMemberProps) {
 export async function addMember({ projectId, id }: addMemberProps) {
   try {
     const { data } = await api.post(`/projects/${projectId}/team`, {id})
-    console.log(data)
     return data
   } catch (error) {
     if(isAxiosError(error)){
-      console.log(error)
+      throw new Error(error.response?.data.errors)
+    }
+  }
+}
+
+export async function getMembers(projectId: string) {
+  try {
+    const { data } = await api.get(`/projects/${projectId}/team`)
+    return data
+  } catch (error) {
+    if(isAxiosError(error)){
       throw new Error(error.response?.data.errors)
     }
   }
