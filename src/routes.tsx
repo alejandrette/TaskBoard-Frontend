@@ -10,6 +10,7 @@ import Singup from "./views/auth/Singup";
 import ConfirmAccountView from "./views/auth/ConfirmAccountView";
 import ForgotPassword from "./views/auth/ForgotPassword";
 import ResetPassword from "./views/auth/ResetPassword";
+import PorjectTeam from "./views/projects/PorjectTeam";
 
 export function Router() {
   return(
@@ -20,6 +21,7 @@ export function Router() {
           <Route path="/project/create" element={<CreateProjectView />} />
           <Route path="/project/:projectId/edit" element={<EditProject />} />
           <Route path="/project/:projectId" element={<ViewProjectDetail />} />
+          <Route path="/project/:projectId/team" element={<PorjectTeam />} />
         </Route>
 
         <Route element={<AuthLayout />}>

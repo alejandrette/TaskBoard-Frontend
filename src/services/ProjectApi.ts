@@ -131,7 +131,6 @@ export async function deleteTask({ projectId, taskId }: getTaskByIdProps) {
 export async function updateStatus({ projectId, taskId, status }: updateStatusProps) {
   try {
     const { data } = await api.post(`/projects/${projectId}/tasks/${taskId}/status`, { status })
-    console.log(data)
     return data
   } catch (error) {
     if(isAxiosError(error)){
