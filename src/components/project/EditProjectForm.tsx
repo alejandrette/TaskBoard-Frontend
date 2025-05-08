@@ -1,15 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
-import ProjectForm from "./ProjectForm";
 import { useForm } from "react-hook-form";
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateProject } from "@/services/ProjectApi";
 import { toast } from "react-toastify";
-import { ProjectInputSchema, ProjectSchema } from "../types";
+import { ProjectInputSchema, ProjectSchema } from "@/types/index";
+import ProjectForm from "./ProjectForm";
 
 type EditProjectFormProps = {
   project: ProjectSchema;
-  projectId: string | undefined
+  projectId: string | undefined;
 }
 
 export default function EditProjectForm({ project, projectId }: EditProjectFormProps) {

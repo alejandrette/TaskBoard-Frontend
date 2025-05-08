@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Fragment } from "react/jsx-runtime";
-import { TaskInputSchema } from "../types";
 import TaskForm from "./TaskForm";
 import { useEffect } from "react";
+import { TaskInputSchema } from "@/types/index";
 
 type EditTaskModalProps = {
   closeModal: () => void;

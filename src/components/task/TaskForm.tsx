@@ -1,13 +1,13 @@
+import { TaskInputSchema } from "@/types/index";
 import { FieldErrors, UseFormRegister } from "react-hook-form"
-import ErrorMessage from "./ErrorMessage";
-import { TaskInputSchema } from "../types";
+import ErrorMessage from "../ErrorMessage";
 
-type CreateTaskFormProps = {
+type TaskFormProps = {
   errors: FieldErrors<TaskInputSchema>;
   register: UseFormRegister<TaskInputSchema>;
 }
 
-export default function TaskForm({errors, register}: CreateTaskFormProps) {
+export default function TaskForm({errors, register}: TaskFormProps) {
     return (
         <>
             <div className="flex flex-col gap-5">

@@ -1,4 +1,3 @@
-import ProjectDetails from "@/components/ProjectDetails";
 import { getProjects } from "@/services/ProjectApi";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -6,6 +5,7 @@ import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { ProjectSchema } from "../types";
+import ProjectDetails from "@/components/project/ProjectDetails";
 
 export default function DashboardView() {
   const { isPending, error, data } = useQuery<{ data: ProjectSchema[] }>({

@@ -1,11 +1,11 @@
 import { Menu, Transition } from "@headlessui/react";
-import { ProjectSchema, TaskSchema } from "../types"
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Dispatch, Fragment } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { deleteTask } from "@/services/ProjectApi";
+import { ProjectSchema, TaskSchema } from "@/types/index";
 
 type TaskCardProps = {
   task: TaskSchema;

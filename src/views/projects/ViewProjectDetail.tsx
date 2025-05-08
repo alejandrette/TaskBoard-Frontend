@@ -4,12 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "@/services/ProjectApi";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
-import AddTaskModal from "@/components/ModalCreateTask";
 import { ProjectSchema } from "@/types/index";
-import TaskList from "@/components/TaskList";
-import EditTaskModal from "@/components/EditTaskModal";
-import ModalTask from "@/components/ModalTask";
 import { RiTeamFill } from "react-icons/ri";
+import AddTaskModal from "@/components/task/ModalCreateTask";
+import TaskList from "@/components/task/TaskList";
+import EditTaskModal from "@/components/task/EditTaskModal";
+import ModalTask from "@/components/task/ModalTask";
 
 export default function ViewProjectDetail() {
   const { projectId } = useParams();

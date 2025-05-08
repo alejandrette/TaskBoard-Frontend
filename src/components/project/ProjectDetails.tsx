@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteProject } from '@/services/ProjectApi';
 import { toast } from 'react-toastify';
-import { ProjectSchema } from '../types';
+import { ProjectSchema } from '@/types/index';
 
 type ProjectDetailsProps = {
   project: ProjectSchema;

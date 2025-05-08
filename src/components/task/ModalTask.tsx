@@ -3,9 +3,9 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Fragment } from "react/jsx-runtime";
-import { TaskSchema } from "../types";
 import { toast } from "react-toastify";
 import { ChangeEvent } from "react";
+import { TaskSchema } from "@/types/index";
 
 type ModalTaskProps = {
   closeModal: () => void;

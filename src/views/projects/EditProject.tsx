@@ -1,4 +1,4 @@
-import EditProjectForm from "@/components/EditProjectForm";
+import EditProjectForm from "@/components/project/EditProjectForm";
 import { getProjectById } from "@/services/ProjectApi";
 import { ProjectSchema } from "@/types/index";
 import { useQuery } from "@tanstack/react-query";

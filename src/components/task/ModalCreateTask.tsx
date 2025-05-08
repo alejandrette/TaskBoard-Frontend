@@ -1,12 +1,12 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import CreateTaskForm from "./TaskForm";
+import TaskForm from "./TaskForm";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
-import { TaskInputSchema } from "../types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTask } from "@/services/ProjectApi";
+import { TaskInputSchema } from "@/types/index";
 
 type AddTaskModalProps = {
   closeModal: () => void;
@@ -85,7 +85,7 @@ export default function AddTaskModal({ closeModal }: AddTaskModalProps) {
                   onSubmit={handleSubmit(handleForm)} 
                   noValidate 
                 >
-                  <CreateTaskForm register={register} errors={errors} />
+                  <TaskForm register={register} errors={errors} />
             
                   <div className="mt-10 flex justify-between items-center">
                     <button

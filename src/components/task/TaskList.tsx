@@ -1,5 +1,5 @@
+import { TaskSchema } from "@/types/index";
 import { Dispatch } from "react";
-import { TaskSchema } from "../types";
 import TaskCard from "./TaskCard";
 
 type TaskListProps = {

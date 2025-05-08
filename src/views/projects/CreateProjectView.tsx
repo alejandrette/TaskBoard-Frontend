@@ -1,4 +1,4 @@
-import ProjectForm from "@/components/ProjectForm";
+import ProjectForm from "@/components/project/ProjectForm";
 import { createProject } from "@/services/ProjectApi";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
