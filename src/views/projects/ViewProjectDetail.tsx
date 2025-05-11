@@ -10,9 +10,11 @@ import AddTaskModal from "@/components/task/ModalCreateTask";
 import TaskList from "@/components/task/TaskList";
 import EditTaskModal from "@/components/task/EditTaskModal";
 import ModalTask from "@/components/task/ModalTask";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function ViewProjectDetail() {
   const { projectId } = useParams();
+  const { data: user } = useAuth()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [isModalTask, setIsModalTask] = useState(false);
@@ -56,21 +58,25 @@ export default function ViewProjectDetail() {
             <p className="text-gray-500 mt-1">Client: {project?.clientName}</p>
           </div>
 
-          <div className="flex flex-col items-end gap-2">
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-semibold transition"
-            >
-              + Add Task
-            </button>
-          
-            <Link 
-              to={`team`}
-              className="w-full text-center px-4 py-2 bg-fuchsia-600 hover:bg-fuchsia-500 text-white rounded-lg font-semibold transition flex items-center justify-center gap-2"
-            >
-              <RiTeamFill /> Team
-            </Link>
-          </div>
+          {project?.manager === user?._id && (
+            <>
+              <div className="flex flex-col items-end gap-2">
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-semibold transition"
+                >
+                  + Add Task
+                </button>
+
+                <Link
+                  to={`team`}
+                  className="w-full text-center px-4 py-2 bg-fuchsia-600 hover:bg-fuchsia-500 text-white rounded-lg font-semibold transition flex items-center justify-center gap-2"
+                >
+                  <RiTeamFill /> Team
+                </Link>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="text-gray-700">

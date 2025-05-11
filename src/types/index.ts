@@ -4,6 +4,8 @@ export type ProjectSchema = {
   clientName: string;
   description: string;
   tasks: TaskSchema[];
+  manager: string;
+  team: string[];
 }
 
 export type ProjectInputSchema = Omit<ProjectSchema, '_id' | 'tasks'>
