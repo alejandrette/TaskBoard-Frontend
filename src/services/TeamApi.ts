@@ -44,3 +44,16 @@ export async function getMembers(projectId: string) {
     }
   }
 }
+
+export async function deleteMember({ projectId, id }: addMemberProps) {
+  try {
+    const { data } = await api.delete(`/projects/${projectId}/team`, {
+      data: { id }
+    })
+    return data
+  } catch (error) {
+    if(isAxiosError(error)){
+      throw new Error(error.response?.data.errors)
+    }
+  }
+}

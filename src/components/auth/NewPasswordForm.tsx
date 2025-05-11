@@ -31,7 +31,6 @@ export default function NewPasswordForm({ token }: NewPasswordFormProps) {
   })
 
   const handleNewPassword = (formData: NewPasswordForm) => {
-    console.log({ formData, token })
     mutation.mutate({ formData, token })
   }
 
