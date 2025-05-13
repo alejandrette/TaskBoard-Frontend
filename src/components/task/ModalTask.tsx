@@ -50,7 +50,7 @@ export default function ModalTask({ closeModal }: ModalTaskProps) {
   const updatedDate = data?.updatedAt ? new Date(data.updatedAt).toLocaleDateString('es-ES') : '';
 
   const handleChange = (status: ChangeEvent<HTMLSelectElement>) => {
-    const { value } = status.target; 
+    const { value } = status.target;
     mutation.mutate({ projectId: projectId!, taskId: taskId!, status: value })
   }
 
@@ -80,36 +80,58 @@ export default function ModalTask({ closeModal }: ModalTaskProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-10">
-                <p className="text-gray-500">
-                  Add the {createdDate}
-                </p>
-                <p className="text-gray-500">
-                  Update the {updatedDate}
-                </p>
+              <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all p-8 space-y-6">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-sm text-gray-400">Created: {createdDate}</p>
+                    <p className="text-sm text-gray-400">Updated: {updatedDate}</p>
+                  </div>
+                  <button
+                    onClick={closeModal}
+                    className="text-gray-400 hover:text-gray-600 text-xl font-bold"
+                  >
+                    ×
+                  </button>
+                </div>
 
-                <Dialog.Title as="h3" className="font-black text-4xl my-5">
+                <Dialog.Title as="h3" className="text-3xl font-bold text-gray-800">
                   {data?.name}
                 </Dialog.Title>
 
-                <p className="text-xl font-bold">
-                  <span className="text-fuchsia-600">Description:</span> {data?.description}
-                </p>
+                <div>
+                  <h4 className="text-lg font-semibold text-fuchsia-600 mb-1">Description</h4>
+                  <p className="text-gray-700">{data?.description}</p>
+                </div>
 
-                <label className="text-xl font-bold text-fuchsia-600">
-                  Change Status:&nbsp;
-                </label>
-                <select 
-                  name="status" 
-                  value={data?.status} 
-                  onChange={handleChange}
-                  className="border border-gray-300 rounded-lg text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-500 transition"
-                >
-                  {Object.entries(statusLabels).map(([key, value]) => (
-                    <option key={key} value={key}>{value}</option>
-                  ))}
-                </select>
+                <div>
+                  <h4 className="text-lg font-semibold text-fuchsia-600 mb-1">Status Updated By</h4>
+                  <ul className="text-gray-700 list-disc list-inside space-y-1">
+                    {data?.completedBy.map((entry, index) => (
+                      <li key={index}>
+                        <span className="font-medium">{entry.user.name}</span>: {statusLabels[entry.status] ?? entry.status}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <label htmlFor="status" className="block text-lg font-semibold text-fuchsia-600 mb-2">
+                    Change Status
+                  </label>
+                  <select
+                    id="status"
+                    name="status"
+                    value={data?.status}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
+                  >
+                    {Object.entries(statusLabels).map(([key, value]) => (
+                      <option key={key} value={key}>{value}</option>
+                    ))}
+                  </select>
+                </div>
               </Dialog.Panel>
+
             </Transition.Child>
           </div>
         </div>

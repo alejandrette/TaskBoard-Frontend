@@ -18,6 +18,7 @@ export type TaskSchema = {
   project: string,
   createdAt: string;
   updatedAt: string;
+  completedBy: { user: { _id: string, name: string, email: string }; status: string }[];
 }
 
 export type TaskInputSchema = Omit<TaskSchema, '_id' | 'status' | 'project'>
