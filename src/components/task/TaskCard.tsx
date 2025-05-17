@@ -34,7 +34,7 @@ export default function TaskCard({ task, setIsModalEditOpen, setIsModalTask }: T
   return (
     <li className="bg-white border rounded-md p-4 shadow-sm relative group transition hover:shadow-lg">
       <div className="space-y-2">
-        <h4 className="font-bold text-slate-800 text-md cursor-pointer" onClick={() => setIsModalTask(true)}>{task.name}</h4>
+        <h4 className="font-bold text-slate-800 text-md cursor-pointer" onClick={() => {navigate(`${location.pathname}?viewTask=${task._id}`); setIsModalTask(true)}}>{task.name}</h4>
         <p className="text-sm text-gray-500">{task.description}</p>
       </div>
 
@@ -59,7 +59,7 @@ export default function TaskCard({ task, setIsModalEditOpen, setIsModalTask }: T
                   <button 
                     type='button' 
                     className='block px-3 py-1 text-sm leading-6 text-gray-900'
-                    onClick={() => {navigate(`${location.pathname}?viewTask=${task._id}`); setIsModalTask(true)}}  
+                    onClick={() => {navigate(`${location.pathname}?viewTask=${task._id}`); setIsModalTask(true)}}
                   >
                     View Task
                   </button>

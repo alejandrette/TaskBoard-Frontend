@@ -29,6 +29,12 @@ type updateTaskProps = {
   taskId: TaskSchema['_id'];
 }
 
+type createNoteProps = {
+  projectId: ProjectSchema['_id'];
+  taskId: TaskSchema['_id'];
+  content: string;
+}
+
 export async function createProject(formData: ProjectInputSchema) {
   try {
     const { data } = await api.post('/projects', formData)
@@ -135,6 +141,17 @@ export async function updateStatus({ projectId, taskId, status }: updateStatusPr
   } catch (error) {
     if(isAxiosError(error)){
       throw new Error(error.response?.data.errors[0].msg)
+    }
+  }
+}
+
+export async function createNote({ projectId, taskId, content }: createNoteProps) {
+  try {
+    const { data } = await api.post(`/projects/${projectId}/tasks/${taskId}/note`, { content } )
+    return data
+  } catch (error) {
+    if(isAxiosError(error)){
+      throw new Error(error.response?.data.errors)
     }
   }
 }

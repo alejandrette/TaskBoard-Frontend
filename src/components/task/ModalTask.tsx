@@ -6,6 +6,7 @@ import { Fragment } from "react/jsx-runtime";
 import { toast } from "react-toastify";
 import { ChangeEvent } from "react";
 import { TaskSchema } from "@/types/index";
+import NoteForm from "./NoteForm";
 
 type ModalTaskProps = {
   closeModal: () => void;
@@ -130,8 +131,10 @@ export default function ModalTask({ closeModal }: ModalTaskProps) {
                     ))}
                   </select>
                 </div>
+                <div>
+                  <NoteForm />
+                </div>
               </Dialog.Panel>
-
             </Transition.Child>
           </div>
         </div>
