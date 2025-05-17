@@ -1,5 +1,5 @@
 import { createNote } from "@/services/ProjectApi";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,14 +11,17 @@ export default function NoteForm() {
   const taskId = queryParams.get("viewTask");
 
   const [ content, setContent ] = useState('')
+  const queryClient = useQueryClient()
 
   const mutation = useMutation({
     mutationFn: createNote,
     onSuccess: (response) => {
       toast.success(response.message);
+      queryClient.invalidateQueries({queryKey: ["viewNotes", projectId, taskId]})
+      setContent('')
     },
     onError: (error) => {
-      toast.error(error.message || "Error adding note");
+      toast.error(error.message);
     },
   })
 
@@ -29,7 +32,7 @@ export default function NoteForm() {
       toast.error("Missing project or task ID")
       return
     }
-    
+
     mutation.mutate({projectId, taskId, content})
   }
 
@@ -49,7 +52,7 @@ export default function NoteForm() {
       />
       <button
         type="submit"
-        //disabled={mutation.isPending}
+        disabled={mutation.isPending}
         className="bg-fuchsia-600 text-white px-4 py-2 rounded-md hover:bg-fuchsia-700 disabled:opacity-50"
       >
         {mutation.isPending ? "Saving..." : "Save Note"}

@@ -42,3 +42,15 @@ export type User = {
   name: string;
   email: string;
 }
+
+export type NoteSchema = {
+  _id: string;
+  content: string;
+  createBy: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+  task: string;
+  createdAt: string;
+};

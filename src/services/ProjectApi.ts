@@ -1,6 +1,6 @@
 import api from "@/lib/axios";
 import { isAxiosError } from "axios";
-import { ProjectInputSchema, ProjectSchema, TaskInputSchema, TaskSchema } from "types";
+import { NoteSchema, ProjectInputSchema, ProjectSchema, TaskInputSchema, TaskSchema } from "types";
 
 type updateProjectProps = {
   formData: ProjectInputSchema;
@@ -32,6 +32,7 @@ type updateTaskProps = {
 type createNoteProps = {
   projectId: ProjectSchema['_id'];
   taskId: TaskSchema['_id'];
+  noteId: NoteSchema['_id'];
   content: string;
 }
 
@@ -151,6 +152,29 @@ export async function createNote({ projectId, taskId, content }: createNoteProps
     return data
   } catch (error) {
     if(isAxiosError(error)){
+      throw new Error(error.response?.data.errors[0].msg)
+    }
+  }
+}
+
+export async function getNotes({ projectId, taskId }: Pick<createNoteProps, 'projectId' | 'taskId'>) {
+  try {
+    const { data } = await api.get(`/projects/${projectId}/tasks/${taskId}/note`)
+    return data
+  } catch (error) {
+    if(isAxiosError(error)){
+      throw new Error(error.response?.data.errors)
+    }
+  }
+}
+
+export async function deleteNote({ projectId, taskId, noteId }: Pick<createNoteProps, 'projectId' | 'taskId' | 'noteId'>) {
+  try {
+    const { data } = await api.delete(`/projects/${projectId}/tasks/${taskId}/note/${noteId}`)
+    return data
+  } catch (error) {
+    if(isAxiosError(error)){
+      console.log(error)
       throw new Error(error.response?.data.errors)
     }
   }

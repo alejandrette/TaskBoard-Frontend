@@ -1,4 +1,4 @@
-import { getTaskById, updateStatus } from "@/services/ProjectApi";
+import { getNotes, getTaskById, updateStatus } from "@/services/ProjectApi";
 import { Dialog, Transition } from "@headlessui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { ChangeEvent } from "react";
 import { TaskSchema } from "@/types/index";
 import NoteForm from "./NoteForm";
+import NoteList from "./NoteList";
 
 type ModalTaskProps = {
   closeModal: () => void;
@@ -27,9 +28,15 @@ export default function ModalTask({ closeModal }: ModalTaskProps) {
   const queryParams = new URLSearchParams(search)
   const taskId = queryParams.get('viewTask')
 
-  const { data } = useQuery<TaskSchema>({
+  const { data: tasks } = useQuery<TaskSchema>({
     queryKey: ["viewTask", projectId, taskId],
     queryFn: () => getTaskById({ projectId: projectId!, taskId: taskId! }),
+    retry: false,
+  });
+
+  const { data: notes } = useQuery({
+    queryKey: ["viewNotes", projectId, taskId],
+    queryFn: () => getNotes({ projectId: projectId!, taskId: taskId! }),
     retry: false,
   });
 
@@ -47,8 +54,8 @@ export default function ModalTask({ closeModal }: ModalTaskProps) {
     }
   })
 
-  const createdDate = data?.createdAt ? new Date(data.createdAt).toLocaleDateString('es-ES') : '';
-  const updatedDate = data?.updatedAt ? new Date(data.updatedAt).toLocaleDateString('es-ES') : '';
+  const createdDate = tasks?.createdAt ? new Date(tasks.createdAt).toLocaleDateString('es-ES') : '';
+  const updatedDate = tasks?.updatedAt ? new Date(tasks.updatedAt).toLocaleDateString('es-ES') : '';
 
   const handleChange = (status: ChangeEvent<HTMLSelectElement>) => {
     const { value } = status.target;
@@ -96,20 +103,20 @@ export default function ModalTask({ closeModal }: ModalTaskProps) {
                 </div>
 
                 <Dialog.Title as="h3" className="text-3xl font-bold text-gray-800">
-                  {data?.name}
+                  {tasks?.name}
                 </Dialog.Title>
 
                 <div>
                   <h4 className="text-lg font-semibold text-fuchsia-600 mb-1">Description</h4>
-                  <p className="text-gray-700">{data?.description}</p>
+                  <p className="text-gray-700">{tasks?.description}</p>
                 </div>
 
                 <div>
                   <h4 className="text-lg font-semibold text-fuchsia-600 mb-1">Status Updated By</h4>
                   <ul className="text-gray-700 list-disc list-inside space-y-1">
-                    {data?.completedBy.map((entry, index) => (
+                    {tasks?.completedBy.map((task, index) => (
                       <li key={index}>
-                        <span className="font-medium">{entry.user.name}</span>: {statusLabels[entry.status] ?? entry.status}
+                        <span className="font-medium">{task.user.name}</span>: {statusLabels[task.status] ?? task.status}
                       </li>
                     ))}
                   </ul>
@@ -122,7 +129,7 @@ export default function ModalTask({ closeModal }: ModalTaskProps) {
                   <select
                     id="status"
                     name="status"
-                    value={data?.status}
+                    value={tasks?.status}
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-fuchsia-500"
                   >
@@ -133,6 +140,9 @@ export default function ModalTask({ closeModal }: ModalTaskProps) {
                 </div>
                 <div>
                   <NoteForm />
+                </div>
+                <div>
+                  <NoteList notes={notes ?? []} projectId={projectId as string} taskId={taskId as string} />
                 </div>
               </Dialog.Panel>
             </Transition.Child>
