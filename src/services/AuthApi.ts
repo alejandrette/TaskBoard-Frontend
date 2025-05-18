@@ -91,3 +91,14 @@ export const getUser = async () => {
     }
   }
 }
+
+export const updateProfile = async ({ name, email }: Pick<User, 'name' | 'email'>) => {
+  try {
+    const { data } = await api.patch(`/auth/profile`, { name, email })
+    return data
+  } catch (error) {
+    if(isAxiosError(error)){
+      throw new Error(error.response?.data.errors)
+    }
+  }
+}
