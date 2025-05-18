@@ -119,3 +119,15 @@ export const updateCurrentPassword = async ({ current_password, password, passwo
     }
   }
 }
+
+export const checkPassword = async ({ password }: Pick<updateCurrentPasswordProps, 'password'>) => {
+  console.log({password})
+  try {
+    const { data } = await api.post(`/auth/check-password`, { password })
+    return data
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error.response?.data.errors)
+    }
+  }
+}

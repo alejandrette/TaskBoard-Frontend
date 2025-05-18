@@ -1,12 +1,10 @@
 import { Menu, Transition } from '@headlessui/react'
 import { SlOptionsVertical } from 'react-icons/sl'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteProject } from '@/services/ProjectApi';
-import { toast } from 'react-toastify';
 import { ProjectSchema } from '@/types/index';
 import { useAuth } from '@/hooks/useAuth';
+import DeleteProjectModal from './DeleteProjectModal';
 
 type ProjectDetailsProps = {
   project: ProjectSchema;
@@ -14,19 +12,8 @@ type ProjectDetailsProps = {
 
 export default function ProjectDetails({ project }: ProjectDetailsProps) {
   const { data: user } = useAuth()
-  const queryClient = useQueryClient()
-  const mutation = useMutation({
-    mutationFn: deleteProject,
-    onError: (error) => {
-      toast.error(error.message)
-    },
-    onSuccess: (response) => {
-      toast.success(response.message)
-      queryClient.invalidateQueries({ queryKey: ['projects'] })
-    }
-  })
-
-  const handleClick = (projectId: ProjectSchema['_id']) => mutation.mutate(projectId)
+  const [showModal, setShowModal] = useState(false)
+  const [deleteProjectId, setDeleteProjectId] = useState<ProjectSchema['_id']>('')
 
   return (
     <div className="relative bg-white p-6 rounded-lg shadow-md border border-gray-200 space-y-2">
@@ -80,7 +67,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
                   <Menu.Item>
                     <button
                       className="group flex w-full items-center rounded-md px-2 py-2 text-sm text-red-700 hover:bg-red-100 hover:text-red-800 transition"
-                      onClick={() => handleClick(project._id)}
+                      onClick={() => {setShowModal(true); setDeleteProjectId(project._id)}}
                     >
                       Delete Project
                     </button>
@@ -95,6 +82,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
       <h2 className="text-xl font-bold text-slate-800 hover:text-purple-800 hover:underline-offset-2 transition-colors"><Link to={`/project/${project._id}`}>{project.projectName}</Link></h2>
       <p className="text-sm text-gray-500">Client: {project.clientName}</p>
       <p className="text-gray-700">{project.description}</p>
+      {showModal && <DeleteProjectModal setShowModal={setShowModal} deleteProjectId={deleteProjectId} />}
     </div>
   );
 }
