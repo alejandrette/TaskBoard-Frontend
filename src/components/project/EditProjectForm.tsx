@@ -16,10 +16,12 @@ export default function EditProjectForm({ project, projectId }: EditProjectFormP
   const initialValues: ProjectInputSchema = {
     projectName: project.projectName,
     clientName: project.clientName,
-    description: project.description
+    description: project.description,
+    manager: project.manager,
+    team: project.team
   }
-  
-  const {register, handleSubmit, formState: {errors}} = useForm({ defaultValues: initialValues })
+
+  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
 
   const queryClient = useQueryClient()
   const mutation = useMutation({
@@ -37,10 +39,10 @@ export default function EditProjectForm({ project, projectId }: EditProjectFormP
 
   const handleForm = (formData: ProjectInputSchema) => {
     if (!projectId) return toast.error('Missing project ID')
-      
+
     mutation.mutate({
       formData,
-      projectId 
+      projectId
     })
   }
 
@@ -59,9 +61,9 @@ export default function EditProjectForm({ project, projectId }: EditProjectFormP
         </Link>
       </div>
 
-      <form 
-        onSubmit={handleSubmit(handleForm)} 
-        noValidate 
+      <form
+        onSubmit={handleSubmit(handleForm)}
+        noValidate
         className="bg-white p-6 shadow-md rounded-lg space-y-6"
       >
         <ProjectForm register={register} errors={errors} />

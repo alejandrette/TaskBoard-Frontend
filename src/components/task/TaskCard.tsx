@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { deleteTask } from "@/services/ProjectApi";
 import { ProjectSchema, TaskSchema } from "@/types/index";
+import { useDraggable } from "@dnd-kit/core";
 
 type TaskCardProps = {
   task: TaskSchema;
@@ -14,6 +15,9 @@ type TaskCardProps = {
 }
 
 export default function TaskCard({ task, setIsModalEditOpen, setIsModalTask }: TaskCardProps) {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: task._id
+  })
   const navigate = useNavigate()
   const projectId = useParams().projectId!;
 
@@ -29,12 +33,28 @@ export default function TaskCard({ task, setIsModalEditOpen, setIsModalTask }: T
     }
   })
 
+  const style = transform ? {
+    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+    padding: '1.25rem',
+    backgroundColor: '#FFF',
+    with: '300%',
+    display: 'flex',
+    borderWidth: '1px',
+    borderColor: 'border-slate-300'
+  } : undefined
+
   const handleClick = (projectId: ProjectSchema['_id'], taskId: TaskSchema['_id']) => mutation.mutate({ projectId, taskId })
 
   return (
     <li className="bg-white border rounded-md p-4 shadow-sm relative group transition hover:shadow-lg">
-      <div className="space-y-2">
-        <h4 className="font-bold text-slate-800 text-md cursor-pointer" onClick={() => {navigate(`${location.pathname}?viewTask=${task._id}`); setIsModalTask(true)}}>{task.name}</h4>
+      <div 
+        {...listeners}
+        {...attributes}
+        ref={setNodeRef}
+        style={style}
+        className="space-y-2"
+      >
+        <h4 className="font-bold text-slate-800 text-md cursor-pointer">{task.name}</h4>
         <p className="text-sm text-gray-500">{task.description}</p>
       </div>
 
