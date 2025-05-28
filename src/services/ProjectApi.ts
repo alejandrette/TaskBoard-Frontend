@@ -64,7 +64,7 @@ export async function getProjectById(projectId: ProjectSchema['_id']) {
     return data
   } catch (error) {
     if(isAxiosError(error)){
-      throw new Error(error.response?.data.errors)
+      throw new Error(error.response?.data.errors[0].msg || error.response?.data.errors)
     }
   }
 }
@@ -146,7 +146,7 @@ export async function updateStatus({ projectId, taskId, status }: updateStatusPr
   }
 }
 
-export async function createNote({ projectId, taskId, content }: createNoteProps) {
+export async function createNote({ projectId, taskId, content }: Pick<createNoteProps, 'projectId' | 'taskId' | 'content'>) {
   try {
     const { data } = await api.post(`/projects/${projectId}/tasks/${taskId}/note`, { content } )
     return data

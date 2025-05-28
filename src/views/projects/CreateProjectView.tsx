@@ -11,7 +11,9 @@ export default function CreateProjectView() {
   const initialValues: ProjectInputSchema = {
     projectName: '',
     clientName: '',
-    description: ''
+    description: '',
+    manager: '',
+    team: []
   }
 
   const {register, handleSubmit, formState: {errors}} = useForm<ProjectInputSchema>({ defaultValues: initialValues })

@@ -14,6 +14,7 @@ import PorjectTeam from "./views/projects/PorjectTeam";
 import ProfileLayout from "./layout/ProfileLayout";
 import ProfileView from "./components/profile/ProfileView";
 import ChangePasswordView from "./components/profile/ChangePasswordView";
+import NotFound from "./views/404/NotFound";
 
 export function Router() {
   return(
@@ -39,6 +40,10 @@ export function Router() {
           <Route path="/auth/confirm-account" element={<ConfirmAccountView />} />
           <Route path="/auth/forgot-password" element={<ForgotPassword />} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
+        </Route>
+
+        <Route element={<AppLayout />}>
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>
