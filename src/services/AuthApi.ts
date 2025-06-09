@@ -15,7 +15,8 @@ export const createAccount = async (formData: UserRegistrationForm) => {
     return data
   } catch (error) {
     if (isAxiosError(error)) {
-      throw new Error(error.response?.data.errors)
+      console.log(error)
+      throw new Error(error.response?.data.errors || error.message)
     }
   }
 }
@@ -38,7 +39,8 @@ export const loginAcount = async (formData: UserLoginForm) => {
     return data
   } catch (error) {
     if (isAxiosError(error)) {
-      throw new Error(error.response?.data.errors)
+      console.log(error)
+      throw new Error(error.response?.data.errors || error.message)
     }
   }
 }
