@@ -56,16 +56,20 @@ cd TaskBoard-Backend
 npm install
 ```
 
+---
+
 ## Crea un archivo .env con tus variables
 
-PORT=4000
-FRONT_URL=`http://localhost:5173`
-DATABASE_URL=mongodb+srv://...
-JWT_SECRET=tu_clave_secreta
-SMTP_HOST=sandbox.smtp.mailtrap.io
-SMTP_PORT=2525
-SMTP_USER=...
-SMTP_PASS=...
+- PORT=4000
+- FRONT_URL=`http://localhost:5173`
+- DATABASE_URL=mongodb+srv://...
+- JWT_SECRET=tu_clave_secreta
+- SMTP_HOST=sandbox.smtp.mailtrap.io
+- SMTP_PORT=2525
+- SMTP_USER=...
+- SMTP_PASS=...
+
+---
 
 ## Ejecuta en desarrollo
 
@@ -95,6 +99,8 @@ VITE_API_URL=http://localhost:4000/api
 npm run dev
 ```
 
+---
+
 ## 📚 Aprendizajes
 
 Este proyecto me permitió reforzar conceptos de:
@@ -104,16 +110,22 @@ Este proyecto me permitió reforzar conceptos de:
 - Gestión de estado y UX con React
 - Buenas prácticas de despliegue en Render y Vercel
 
+---
+
 ## 💡 Próximas mejoras
 
 - Soporte multiusuario por tablero
 - Drag and drop de tareas
 - Notificaciones por email
 
+---
+
 ## 🧑‍💻 Autor
 
 Desarrollado por Alejandro
 📫 Contacto: [Linkedin](https://www.linkedin.com/in/alejandro-casafer/)
+
+---
 
 ## 📄 Licencia
 
