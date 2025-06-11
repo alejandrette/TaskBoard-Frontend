@@ -1,54 +1,120 @@
-# React + TypeScript + Vite
+# 🧩 TaskBoard - App de Gestión de Tareas
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**TaskBoard** es una aplicación web para la organización de tareas personales o en equipo. Ofrece autenticación de usuarios, gestión de proyectos y tareas en columnas estilo Kanban, y una interfaz intuitiva y responsiva.
 
-Currently, two official plugins are available:
+## 🚀 Demo en vivo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🔗 **Frontend**: [https://taskboard-frontend.vercel.app](https://taskboard-frontend.vercel.app)  
+🔗 **Backend API**: [https://taskboard-backend-1.onrender.com/api](https://taskboard-backend-1.onrender.com/api)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## ✨ Características
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- ✅ Registro y login de usuarios
+- ✅ Confirmación de cuenta vía correo electrónico
+- ✅ Recuperación y cambio de contraseña
+- ✅ Creación de tableros y columnas (Kanban)
+- ✅ Tareas con título, descripción y edición en línea
+- ✅ Interfaz moderna y fácil de usar
+
+---
+
+## 🛠️ Tecnologías
+
+### Frontend (Instalación)
+
+- ⚛️ React + TypeScript
+- 💨 Tailwind CSS
+- 🍪 js-cookie
+- 🔐 JWT Auth
+
+### Backend (Instalación)
+
+- 🧬 Node.js + Express
+- 🗃️ MongoDB (Mongoose)
+- ✉️ Nodemailer (con Mailtrap)
+- 🔐 JSON Web Tokens
+- 📩 CORS configurado dinámicamente
+- 📦 Hospedado en Render
+
+---
+
+## 📦 Instalación local
+
+### Backend
+
+```bash
+# Clona el repo
+git clone https://github.com/tuusuario/TaskBoard-Backend
+cd TaskBoard-Backend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Instala dependencias
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm install
 ```
+
+## Crea un archivo .env con tus variables
+
+PORT=4000
+FRONT_URL=`http://localhost:5173`
+DATABASE_URL=mongodb+srv://...
+JWT_SECRET=tu_clave_secreta
+SMTP_HOST=sandbox.smtp.mailtrap.io
+SMTP_PORT=2525
+SMTP_USER=...
+SMTP_PASS=...
+
+## Ejecuta en desarrollo
+
+```bash
+npm run dev
+```
+
+### Frontend
+
+```bash
+## Clona el repo
+git clone https://github.com/tuusuario/TaskBoard-Frontend
+cd TaskBoard-Frontend
+```
+
+```bash
+npm install
+```
+
+```bash
+# Crea un archivo .env con:
+VITE_API_URL=http://localhost:4000/api
+```
+
+```bash
+# Ejecuta en desarrollo
+npm run dev
+```
+
+## 📚 Aprendizajes
+
+Este proyecto me permitió reforzar conceptos de:
+
+- Manejo de autenticación segura con JWT
+- Arquitectura cliente-servidor con APIs REST
+- Gestión de estado y UX con React
+- Buenas prácticas de despliegue en Render y Vercel
+
+## 💡 Próximas mejoras
+
+- Soporte multiusuario por tablero
+- Drag and drop de tareas
+- Notificaciones por email
+
+## 🧑‍💻 Autor
+
+Desarrollado por Alejandro
+📫 Contacto: [Linkedin](https://www.linkedin.com/in/alejandro-casafer/)
+
+## 📄 Licencia
+
+Este proyecto está bajo la MIT License.
